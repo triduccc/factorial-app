@@ -1,0 +1,3 @@
+#Contains the required libraries/packages for the project
+
+streamlit
