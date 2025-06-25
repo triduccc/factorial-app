@@ -10,19 +10,19 @@ def load_users():
                 users = [line.strip() for line in f.readlines() if line.strip()]
             return users
         else:
-            st.error("File user.txt không tồn tại!")
+            st.error("File user.txt does not exist!")
             return []
     except Exception as e:
-        st.error(f"Lỗi khi đọc file user.txt: {e}")
+        st.error(f"Error reading user.txt file: {e}")
         return []
 
 def login_page():
     """Login Page"""
     st.title("Login")
 
-    username = st.text_input("Nhập tên người dùng:")
+    username = st.text_input("Enter username:")
 
-    if st.button("Đăng nhập"):
+    if st.button("Login"):
         if username:
             users = load_users()
         if username in users:
@@ -34,45 +34,45 @@ def login_page():
             st.session_state.username = username
             st.rerun()
     else:
-        st.warning("Vui lòng nhập tên người dùng!")
+        st.warning("Please enter a username!")
 
 def factorial_calculator():
-    """Trang tính giai thừa"""
+    """Factorial Calculator"""
     st.title("Factorial Calculator")
 
-    # Hiển thị thông tin user đã đăng nhập
-    st.write(f"Xin chào, {st.session_state.username}!")
+    # Display logged-in user information
+    st.write(f"Hello, {st.session_state.username}!")
 
-    # Nút đăng xuất
-    if st.button("Đăng xuất"):
+    # Logout button
+    if st.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.username = ""
         st.rerun()
 
     st.divider()
 
-    # Chức năng tính giai thừa
-    number = st.number_input("Nhập vào một số:",
+    # Factorial calculation function
+    number = st.number_input("Enter a number:",
                              min_value=0,
                              max_value=900)
 
-    if st.button("Tính giai thừa"):
+    if st.button("Calculate factorial"):
         result = fact(number)
-        st.write(f"Giai thừa của {number} là {result}")
+        st.write(f"The factorial of {number} is {result}")
 
 def greeting_page():
-    """Trang chào hỏi cho user không hợp lệ"""
-    st.title("Xin chào!")
-    st.write(f"Xin chào {st.session_state.username}!")
-    st.write("Bạn không có quyền truy cập vào chức năng tính giai thừa.")
+    """Greeting page for invalid user"""
+    st.title("Hello!")
+    st.write(f"Hello {st.session_state.username}!")
+    st.write("You do not have access to the factorial calculation function.")
 
-    if st.button("Quay lại đăng nhập"):
+    if st.button("Go back to login"):
         st.session_state.show_greeting = False
         st.session_state.username = ""
         st.rerun()        
 
 def main():
-    # Khởi tạo session state
+    # Initialize session state
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
     if 'username' not in st.session_state:
@@ -80,7 +80,7 @@ def main():
     if 'show_greeting' not in st.session_state:
         st.session_state.show_greeting = False
 
-    # Điều hướng trang dựa trên trạng thái đăng nhập
+    # Navigate pages based on login status
     if st.session_state.logged_in:
         factorial_calculator()
     elif st.session_state.show_greeting:
@@ -89,4 +89,4 @@ def main():
         login_page()
 
 if __name__ == "__main__":
-    main()    
+    main()
