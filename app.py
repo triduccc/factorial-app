@@ -72,14 +72,21 @@ def greeting_page():
         st.rerun()        
 
 def main():
-    st.title (" Factorial Calculator ")
-    number = st.number_input (" Enter a number :",
-                                min_value = 0,
-                                max_value = 900)
-    
-    if st.button("Calculate"):
-        result = fact(number)
-        st.write(f"The factorial of {number} is {result}")
+    # Khởi tạo session state
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
+    if 'username' not in st.session_state:
+        st.session_state.username = False
+    if 'show_greeting' not in st.session_state:
+        st.session_state.show_greeting = False
 
+    # Điều hướng trang dựa trên trạng thái đăng nhập
+    if st.session_state.logged_in:
+        factorial_calculator()
+    elif st.session_state.show_greeting:
+        greeting_page()
+    else:
+        login_page()
+        
 if __name__ == "__main__":
     main()    
